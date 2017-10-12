@@ -36,9 +36,9 @@ let app = new Vue({
                             <label class="small" :text="windSpeed"></label>
                             <label class="small" :text="visibility"></label>
                         </stack-layout>                    
-                <grid-layout>
+                </grid-layout>
             </stack-layout>
-
+            
             <stack-layout row="1">
 
             <stack-layout class="hr-light"></stack-layout>
