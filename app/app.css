@@ -1,0 +1,44 @@
+@import 'nativescript-theme-core/css/core.light.css';
+
+Page {
+    margin: 30;
+}
+
+label {
+    margin: 10 0;
+    font-family: "Quicksand";
+    font-size: 20;
+    text-transform: uppercase; 
+    text-align: center; 
+}
+
+.hr-light {
+    margin: 30 0;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.weather-image {
+    margin: 10 40;
+}
+
+.weather-box {
+    margin-top: 10;
+}
+
+.large {
+    font-size: 60;
+    vertical-align: top;
+}
+
+.small {
+    font-size: 15;
+    margin: 0;
+    text-align: left;
+}
+
+.tight {
+    margin: 5
+}
