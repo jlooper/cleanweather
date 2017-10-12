@@ -4,4 +4,4 @@ This app was cloned from this beautiful [Behance design](https://mir-s3-cdn-cf.b
 
 I used Vue.js and NativeScript to create this app.
 
-![screenshot](cleanweather.gif)
+![screenshot](cleanweather.png)
