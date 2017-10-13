@@ -14,17 +14,18 @@ let app = new Vue({
             windSpeed: '',
             visibility: '',
             day: '',
-            time: ''
+            time: '',
+            image: ''
         }
     },
     
     template: `
         <page>
-        <grid-layout rows="auto,auto">
-            <stack-layout row="0">
+        <grid-layout rows="auto,*">
+            <stack-layout>
                 <label class="bold" :text="city"></label>
                 <label :text="summary"></label>
-                <image class="weather-image" src='~/images/cloudy.png'></image>
+                <image height="150" class="weather-image" :src="image"></image>
                     
                 <grid-layout class="weather-box" columns="1*,1*" rows="auto">
                         <label col="0" row="0" class="large" :text="currentTemperature"></label>
@@ -50,6 +51,8 @@ let app = new Vue({
             <label :text="time"></label>
             
             </stack-layout>
+         
+        </grid-layout>
         
         </page>
     `,
@@ -70,14 +73,16 @@ let app = new Vue({
         weekdays[6] = "Saturday";
         var dayName = weekdays[day];
         var currentHours = currentDate.getHours()
-        var timeOfDay = (currentHours < 12 ) ? "Morning" : "Afternoon"
+        console.log(currentHours)
+        var timeOfDay = (currentHours >= 12 ) ? "Afternoon" : "Morning"
+        console.log(timeOfDay)
         this.day = dayName
         this.time = timeOfDay    
     },
     
     methods: { 
         getMyCity(lat,long){
-            //sample call 
+            
             http.request({
                 url: "https://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+long+"&zoom=18&addressdetails=1",
                 method: "GET"
@@ -86,7 +91,45 @@ let app = new Vue({
                 console.log(obj.address.city) 
                 this.city = obj.address.city      
             }) 
-        },    
+        },  
+        setImage(icon) {
+            console.log(icon);
+            switch(icon) {
+                case "partly-cloudy-day":
+                  this.image = "~/images/cloudy.png";
+                  break;
+                case "partly-cloudy-night":
+                  this.image = "~/images/cloudy.png";       
+                  break;
+                case "clear-day":
+                  this.image = "~/images/sunny.png";        
+                  break;
+                case "sleet":
+                  this.image = "~/images/foggy.png";        
+                  break;
+                case "snow":
+                  this.image = "~/images/foggy.png";        
+                  break;
+                case "wind":
+                  this.image = "~/images/foggy.png";        
+                  break;
+                case "rain":
+                  this.image = "~/images/rainy.png";        
+                  break;
+                case "lightning":
+                  this.image = "~/images/rainy.png";        
+                  break;
+                case "cloudy":
+                  this.image = "~/images/cloudy.png";        
+                  break;
+                case "fog":
+                  this.image = "~/images/foggy.png";        
+                  break;
+                case "clear-night":
+                  this.image = "~/images/sunny.png";        
+                  break;
+            }
+        },
         getMyWeather() {
             Geolocation.enableLocationRequest();
             //handle, accept 'ok' push
@@ -101,12 +144,13 @@ let app = new Vue({
                     }).then( response => {
                         var obj = response.content.toJSON();
                         this.summary = obj.currently.summary;
-                        console.log(JSON.stringify(obj.currently))
+                        //console.log(JSON.stringify(obj.currently))
                         this.humidity = 'humidity: '+obj.currently.humidity.toString()+'%';
                         this.windSpeed = 'wind: '+obj.currently.windSpeed.toString()+' mph';
                         this.apparentTemperature = 'feels like: '+Math.round(obj.currently.apparentTemperature).toString() + '°';
                         this.visibility = 'visibility: '+obj.currently.visibility.toString()+' m';
                         this.currentTemperature = Math.round(obj.currently.temperature).toString() + '°';
+                        this.setImage(obj.currently.icon.toString());
                     })                    
                 }
             }, function(e) {
